@@ -1,122 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState } from "react";
+import Flashcard from "./components/Flashcard";
+import cards from "./data/cards";
+import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+function shuffleDeck(deck) {
+  return [...deck].sort(() => Math.random() - 0.5);
 }
 
-export default App
+function App() {
+  const [deck, setDeck] = useState(() => shuffleDeck(cards));
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [cardKey, setCardKey] = useState(0);
+
+  const handleNext = () => {
+    if (currentIndex + 1 >= deck.length) {
+      // Reshuffle and start over when all cards seen
+      setDeck(shuffleDeck(cards));
+      setCurrentIndex(0);
+    } else {
+      setCurrentIndex((i) => i + 1);
+    }
+    setCardKey((k) => k + 1);
+  };
+
+  const cardsSeenCount = currentIndex + 1;
+
+  return (
+    <div className="app">
+      <header className="app-header">
+        <h1 className="app-title">Who's That? 🌟</h1>
+        <p className="app-description">
+          Can you guess the singer from just a glimpse? Tap the card to reveal who it is.
+        </p>
+        <div className="app-meta">
+          <span className="meta-badge">🃏 {cards.length} cards</span>
+        </div>
+      </header>
+
+      <main className="app-main">
+        <Flashcard key={cardKey} card={deck[currentIndex]} />
+        <button className="next-btn" onClick={handleNext}>
+          Next Card →
+        </button>
+      </main>
+    </div>
+  );
+}
+
+export default App;
