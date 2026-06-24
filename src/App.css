@@ -18,10 +18,9 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 40px;
+  gap: 36px;
 }
 
-/* Header */
 .app-header {
   text-align: center;
   display: flex;
@@ -49,8 +48,9 @@ body {
 
 .app-meta {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   justify-content: center;
+  flex-wrap: wrap;
   margin-top: 4px;
 }
 
@@ -65,34 +65,48 @@ body {
   letter-spacing: 0.04em;
 }
 
-/* Main */
 .app-main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 28px;
+  gap: 24px;
   width: 100%;
 }
 
-/* Next button */
-.next-btn {
-  background: linear-gradient(135deg, #7c3aed, #db2777);
-  color: white;
-  border: none;
-  border-radius: 14px;
-  padding: 14px 40px;
-  font-size: 1rem;
+/* Nav buttons */
+.nav-btns {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-btn {
+  background: #1e1e2e;
+  color: #a0a0cc;
+  border: 1px solid #2e2e42;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-size: 0.95rem;
   font-weight: 700;
-  letter-spacing: 0.02em;
   cursor: pointer;
-  transition: opacity 0.2s, transform 0.15s;
+  transition: all 0.2s;
 }
 
-.next-btn:hover {
-  opacity: 0.9;
-  transform: translateY(-2px);
+.nav-btn:hover:not(:disabled) {
+  background: #2a2a42;
+  color: #f0f0ff;
+  transform: translateY(-1px);
 }
 
-.next-btn:active {
-  transform: translateY(0);
+.nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.nav-count {
+  font-size: 0.85rem;
+  color: #5050a0;
+  min-width: 50px;
+  text-align: center;
+  font-weight: 600;
 }
